@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brijesh Yadav — Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --border: #1e2230;
+    --accent: #4f8ef7;
+    --accent2: #7c5ce0;
+    --green: #2ecc71;
+    --orange: #f39c12;
+    --red: #e74c3c;
+    --teal: #00cec9;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --tag-bg: #1a1f2e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -20px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* PANEL */
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .intro-card .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .intro-card .card-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .intro-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #c8cdd8;
+    font-weight: 300;
+  }
+
+  .intro-text strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .intro-text .highlight {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .copy-btn {
+    margin-top: 20px;
+    padding: 10px 22px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+  /* TIMELINE */
+  .timeline { position: relative; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .company-card {
+    margin-left: 52px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .company-card:hover { border-color: var(--accent); }
+
+  .company-card::before {
+    content: '';
+    position: absolute;
+    left: -38px; top: 24px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+
+  .company-dot {
+    position: absolute;
+    left: -34px; top: 28px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .company-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .tenure-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .role-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 4px;
+  }
+
+  .location-text {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .resp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resp-list li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #9ca3af;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .resp-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  .resp-list li strong {
+    color: #d1d5db;
+  }
+
+  .metric-tag {
+    display: inline-block;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.25);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  .metric-tag.green {
+    background: rgba(46,204,113,0.1);
+    border-color: rgba(46,204,113,0.25);
+    color: var(--green);
+  }
+
+  .metric-tag.orange {
+    background: rgba(243,156,18,0.1);
+    border-color: rgba(243,156,18,0.25);
+    color: var(--orange);
+  }
+
+  .tech-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tech-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* CRISP INTRO */
+  .intro-versions {
+    display: grid;
+    gap: 16px;
+  }
+
+  .version-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .version-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .version-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .duration-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+
+  .dur-30 { border-color: var(--green); color: var(--green); background: rgba(46,204,113,0.08); }
+  .dur-60 { border-color: var(--orange); color: var(--orange); background: rgba(243,156,18,0.08); }
+  .dur-90 { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.08); }
+
+  .version-body {
+    padding: 20px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #b8bdd0;
+  }
+
+  .version-body strong { color: #fff; }
+  .version-body .hl { color: var(--accent); }
+
+  /* SUMMARY BAR */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Interview Prep Kit</div>
+  <h1>Brijesh Yadav</h1>
+  <div class="subtitle">GitHub Solutions Architect @ Eficode — Recruiter Call</div>
+</div>
+
+<!-- STAT SUMMARY -->
+<div class="summary-grid">
+  <div class="stat-box"><div class="stat-num">13+</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Companies</div></div>
+  <div class="stat-box"><div class="stat-num">300+</div><div class="stat-label">Microservices Owned</div></div>
+  <div class="stat-box"><div class="stat-num">9</div><div class="stat-label">Certifications</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('intro')">🎤 Crisp Intro</button>
+  <button class="tab" onclick="showTab('companies')">🏢 All Companies</button>
+</div>
+
+<!-- INTRO PANEL -->
+<div id="intro" class="panel active">
+  <div class="intro-versions">
+
+    <div class="version-card">
+      <div class="version-header">
+        <div class="version-title">⚡ 30-Second Version — Phone Opener</div>
+        <span class="duration-pill dur-30">~30 sec</span>
+      </div>
+      <div class="version-body" id="v30">
+        Hi, I'm <strong>Brijesh Yadav</strong>, based in <strong>Stockholm</strong>. I'm a Senior SRE and Engineering Lead with <strong>13+ years</strong> in cloud, DevOps, and platform engineering. Currently at <strong>HCL Technology</strong>, embedded with Ericsson managing their enterprise multi-cloud platform — <span class="hl">300+ microservices across AWS, Azure, and on-prem</span>. Before that, I led the <strong>Cloud Centre of Excellence at Knowit</strong> in Malmö, owning engineering governance and team capability across the org. I'm drawn to Eficode because it's the best place in Europe to go deep on <span class="hl">enterprise GitHub and DevSecOps advisory</span> — and that's exactly where I want to grow.
+      </div>
+      <button class="copy-btn" onclick="copyText('v30', this)">⎘ Copy</button>
+    </div>
+
+    <div class="version-card">
+      <div class="version-header">
+        <div class="version-title">🎯 60-Second Version — Full Pitch</div>
+        <span class="duration-pill dur-60">~60 sec</span>
+      </div>
+      <div class="version-body" id="v60">
+        Hi, I'm <strong>Brijesh Yadav</strong> — currently a <strong>Senior SRE and Engineering Lead at HCL Technology</strong> in Stockholm, where I'm embedded with Ericsson managing their enterprise multi-cloud platform. I own platform reliability governance for <span class="hl">300+ microservices across AWS, Azure, and on-prem</span> — we raised uptime from <strong>99.3% to 99.95%</strong> and cut MTTR from 45 minutes to under 8 minutes through automated remediation and self-healing pipelines.<br><br>
+        Before this, I <strong>led the Cloud CoE at Knowit</strong> in Malmö — owning cloud governance, engineering standards, and team capability across multiple business units and clouds. That's where I really developed the advisory and stakeholder management skills this role needs.<br><br>
+        Over 13 years I've worked across <strong>AWS, Azure, GCP</strong> — from hands-on IaC and Kubernetes delivery to leading org-wide platform programs. The GitHub Solutions Architect role at Eficode excites me because it combines <span class="hl">deep technical architecture with strategic consulting</span> — exactly the intersection I've been building toward. And Eficode winning GitHub's Channel Partner of the Year two years running — that tells me this is the right place to go deep.
+      </div>
+      <button class="copy-btn" onclick="copyText('v60', this)">⎘ Copy</button>
+    </div>
+
+    <div class="version-card">
+      <div class="version-header">
+        <div class="version-title">💬 Hinglish Version — Apne andar rakhna</div>
+        <span class="duration-pill dur-90">Reference</span>
+      </div>
+      <div class="version-body">
+        Basically bolta hun: <strong>13+ saal ka experience hain cloud, DevOps aur SRE mein.</strong> Abhi HCL ke through Ericsson ka enterprise platform handle kar raha hun Stockholm mein — <span class="hl">300+ microservices, multi-cloud.</span> Pehle Knowit mein Cloud CoE lead tha jahan pure org ka governance aur team capability mera responsibility tha.<br><br>
+        Eficode mein isliye interested hun kyunki yahan <strong>enterprise GitHub architecture aur advisory</strong> dono milenge — aur GitHub Partner of the Year award 2 baar jeete hain, toh quality ki guarantee hain. Yahi combination mujhe aage le jaana hain.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMPANIES PANEL -->
+<div id="companies" class="panel">
+  <div class="timeline">
+
+    <!-- HCL -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">HCL Technology Sweden AB</div>
+        <span class="tenure-badge">Feb 2025 – Present</span>
+      </div>
+      <div class="role-title">Sr. Site Reliability Engineer — Engineering Lead</div>
+      <div class="location-text">📍 Stockholm, Sweden · Client: Ericsson</div>
+      <ul class="resp-list">
+        <li>Platform reliability governance for <strong>300+ microservices</strong> across AWS, Azure & On-Prem — raised uptime <span class="metric-tag green">99.3% → 99.95%</span></li>
+        <li>Built SRE automation frameworks using <strong>Python, AWS Lambda, Step Functions & Terraform</strong> — reduced manual ops toil <span class="metric-tag green">60%↓</span></li>
+        <li>Led cross-functional observability initiative: <strong>Prometheus, Grafana, CloudWatch, Loki & ELK</strong> — golden signal standards across the org</li>
+        <li>Engineered self-healing pipelines with anomaly detection — MTTR cut <span class="metric-tag orange">45 min → under 8 min</span>. Owned incident management & RCA</li>
+        <li>IaC modernization of <strong>200+ environments</strong> from legacy Terraform/Ansible to modular versioned deployments — <span class="metric-tag green">18–25% cloud cost savings</span></li>
+        <li>Collaborated with Delivery Managers & Product teams — drove change programs <strong>without direct authority</strong></li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">AWS</span><span class="tech-tag">Azure</span><span class="tech-tag">Terraform</span><span class="tech-tag">Kubernetes</span><span class="tech-tag">Prometheus</span><span class="tech-tag">Grafana</span><span class="tech-tag">Loki</span><span class="tech-tag">ELK</span><span class="tech-tag">Python</span><span class="tech-tag">AWS Lambda</span><span class="tech-tag">Step Functions</span>
+      </div>
+    </div>
+
+    <!-- NIMBLR -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">Nimblr AB</div>
+        <span class="tenure-badge">Aug – Nov 2024</span>
+      </div>
+      <div class="role-title">Sr. DevOps Engineer</div>
+      <div class="location-text">📍 Malmö, Sweden · SaaS Product Build</div>
+      <ul class="resp-list">
+        <li>Built scalable <strong>AWS environment</strong> (EC2, RDS, ALB, VPC) with Terraform-automated multi-environment deployments</li>
+        <li>Containerized <strong>Laravel app with Docker</strong>, deployed on ECS — full GitLab CI/CD from build → test → release</li>
+        <li>Migrated MariaDB to <strong>Amazon RDS</strong> with HA; implemented CloudWatch/CloudTrail monitoring</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">AWS ECS</span><span class="tech-tag">Docker</span><span class="tech-tag">Terraform</span><span class="tech-tag">GitLab CI/CD</span><span class="tech-tag">RDS</span><span class="tech-tag">CloudWatch</span><span class="tech-tag">Laravel</span>
+      </div>
+    </div>
+
+    <!-- KNOWIT -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">Knowit Solution Sharp AB</div>
+        <span class="tenure-badge">Sep 2022 – Jul 2024</span>
+      </div>
+      <div class="role-title">Cloud Consultant — Engineering Lead & CoE</div>
+      <div class="location-text">📍 Malmö, Sweden · Cloud Centre of Excellence</div>
+      <ul class="resp-list">
+        <li>Owned <strong>cloud governance & engineering standards</strong> across the org — defined CoE practices, performance KPIs, operational processes adopted by multiple teams</li>
+        <li>Led cloud engineers & senior specialists — built internal cloud community through <strong>structured training, best practices docs & cross-team collaboration</strong></li>
+        <li>Drove onboarding of cloud services — communicated <strong>technical strategy to customer & executive stakeholders</strong></li>
+        <li>Designed and implemented <strong>DR/BCP frameworks & compliance planning</strong> — trusted advisor on risk and security posture</li>
+        <li>Operated across business units to <strong>influence adoption of new engineering ways of working</strong> without direct authority</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">AWS</span><span class="tech-tag">Azure</span><span class="tech-tag">GCP</span><span class="tech-tag">CoE Governance</span><span class="tech-tag">DR/BCP</span><span class="tech-tag">IaC</span><span class="tech-tag">Stakeholder Mgmt</span>
+      </div>
+    </div>
+
+    <!-- QUEST GLOBAL -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">Quest Global</div>
+        <span class="tenure-badge">Oct 2021 – Aug 2022</span>
+      </div>
+      <div class="role-title">Lead DevOps Engineer</div>
+      <div class="location-text">📍 Helsingborg, Sweden · GCP Engineering</div>
+      <ul class="resp-list">
+        <li>Led GCP infrastructure automation — <strong>Compute Engine, Cloud Functions, Pub/Sub, GKE</strong> — improving product reliability</li>
+        <li>Designed CI/CD pipelines using <strong>Cloud Build & Container Registry</strong> — deployment time <span class="metric-tag green">30%↓</span>, enabled microservices delivery at scale</li>
+        <li>Built monitoring & analytics dashboards (Stackdriver, Splunk, GCP Ops) — drove <span class="metric-tag green">20% infra cost reduction</span></li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">GCP</span><span class="tech-tag">GKE</span><span class="tech-tag">Cloud Build</span><span class="tech-tag">Pub/Sub</span><span class="tech-tag">Stackdriver</span><span class="tech-tag">Splunk</span><span class="tech-tag">Terraform</span>
+      </div>
+    </div>
+
+    <!-- TCS -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">Tata Consultancy Services</div>
+        <span class="tenure-badge">Oct 2016 – Oct 2021</span>
+      </div>
+      <div class="role-title">Sr. Cloud Engineer — Team Lead</div>
+      <div class="location-text">📍 Mumbai, India · Enterprise Multi-Cloud</div>
+      <ul class="resp-list">
+        <li>Led delivery of <strong>hybrid cloud architectures (AWS, Azure, GCP)</strong> for enterprise clients — IaC automation, containerization, migration & cost governance</li>
+        <li>Mentored & developed cloud engineers — team standards, technical design reviews, <strong>continuous improvement in performance, security & reliability</strong></li>
+        <li>Owned cloud migration & governance initiatives — balanced technical delivery with <strong>compliance requirements & stakeholder expectations</strong></li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">AWS</span><span class="tech-tag">Azure</span><span class="tech-tag">GCP</span><span class="tech-tag">Kubernetes</span><span class="tech-tag">IaC</span><span class="tech-tag">Ansible</span><span class="tech-tag">Team Leadership</span>
+      </div>
+    </div>
+
+    <!-- PIXTOP -->
+    <div class="company-card">
+      <div class="company-dot"></div>
+      <div class="company-header">
+        <div class="company-name">Pixtop Media Solutions</div>
+        <span class="tenure-badge">Feb 2013 – Sep 2016</span>
+      </div>
+      <div class="role-title">Sr. Software Developer</div>
+      <div class="location-text">📍 Mumbai, India · Career Foundation</div>
+      <ul class="resp-list">
+        <li>Engineered high-performance <strong>Drupal platforms</strong> with custom modules, automated deployments & advanced SEO — boosted site visibility and user engagement</li>
+        <li>Foundation in web application development and deployment automation — the start of the DevOps journey</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Drupal</span><span class="tech-tag">PHP</span><span class="tech-tag">Linux</span><span class="tech-tag">SEO</span><span class="tech-tag">Deployment Automation</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function copyText(id, btn) {
+    const el = document.getElementById(id);
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '⎘ Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
